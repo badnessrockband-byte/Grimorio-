@@ -1,2 +1,121 @@
-# Grimorio-
+{
+  "spirits": [
+    "Bael",
+    "Agares",
+    "Vassago",
+    "Samigina",
+    "Marbas",
+    "Valefor",
+    "Amon",
+    "Barbatos",
+    "Paimon",
+    "Buer",
+    "Gusion",
+    "Sitri",
+    "Beleth",
+    "Lerajé",
+    "Eligos",
+    "Zepar",
+    "Botis",
+    "Bathin",
+    "Sallos",
+    "Purson",
+    "Marax",
+    "Ipos",
+    "Aim",
+    "Naberius",
+    "Glasya-Labolas",
+    "Bune",
+    "Ronové",
+    "Berith",
+    "Astaroth",
+    "Forneus",
+    "Foras",
+    "Asmoday",
+    "Gaap",
+    "Furfur",
+    "Marchosias",
+    "Stolas",
+    "Phenex",
+    "Malphas",
+    "Raum",
+    "Focalor",
+    "Vepar",
+    "Sabnock",
+    "Shax",
+    "Viné",
+    "Bifrons",
+    "Uvall",
+    "Haagenti",
+    "Crocell",
+    "Furcas",
+    "Balam",
+    "Alloces",
+    "Caim",
+    "Murmur",
+    "Orobas",
+    "Gremory",
+    "Ose",
+    "Amy",
+    "Oriax",
+    "Vapula",
+    "Zagan",
+    "Volac",
+    "Andras",
+    "Haures",
+    "Andrealphus",
+    "Cimejes",
+    "Amducias",
+    "Belial",
+    "Decarabia",
+    "Seere",
+    "Dantalion",
+    "Andromalius"
+  ],
+  "sources": [
+    {
+      "title": "Clavicula Salomonis — edição de 1889",
+      "url": "https://wellcomecollection.org/works/xhh2qvud",
+      "status": "Public Domain Mark",
+      "detail": "Edição de S. L. MacGregor Mathers, London, George Redway, 1889. A Wellcome informa 166 imagens digitalizadas e PDF integral."
+    },
+    {
+      "title": "Clavicula Salomonis — páginas digitalizadas",
+      "url": "https://wellcomecollection.org/works/xhh2qvud/items",
+      "status": "Public Domain Mark",
+      "detail": "Visualização página a página; a coleção marca o item como Public Domain Mark."
+    },
+    {
+      "title": "Ars Goetia — Peterson / Sloane 3825",
+      "url": "https://www.esotericarchives.com/solomon/goetia.htm",
+      "status": "CC-BY 4.0",
+      "detail": "Transcrição de London, British Library Sloane MS 3825; variantes de outros manuscritos entre colchetes; catálogo de 72 espíritos."
+    },
+    {
+      "title": "Ars Paulina — Peterson / Sloane 3825",
+      "url": "https://www.esotericarchives.com/solomon/paulina.htm",
+      "status": "CC-BY 4.0",
+      "detail": "Transcrição do Sloane 3825; a introdução observa composição tardia e relações com Trithemius, Picatrix e outros textos."
+    },
+    {
+      "title": "Vaticano — exorcismo",
+      "url": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_19850924_exorcism_po.html",
+      "status": "Documento oficial",
+      "detail": "Exorcismo sobre pessoa possuída requer licença especial e expressa do Ordinário local."
+    },
+    {
+      "title": "Vaticano — orações de cura",
+      "url": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20001123_istruzione_po.html",
+      "status": "Documento oficial",
+      "detail": "Distingue orações de cura do rito de exorcismo e trata da autoridade eclesial para exorcismos."
+    }
+  ],
+  "books": [
+    "Ars Goetia",
+    "Ars Theurgia-Goetia",
+    "Ars Paulina",
+    "Ars Almadel",
+    "Ars Notoria"
+  ]
+}# Grimorio-
 Grimorio 
