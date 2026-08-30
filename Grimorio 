@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#08070a">
+<title>Grimório — Biblioteca Esotérica</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#08070a;
+  --panel:#121016;
+  --panel2:#19151d;
+  --gold:#c9a65b;
+  --gold2:#f0d58a;
+  --text:#eee8dc;
+  --muted:#a9a19a;
+  --border:#3a303d;
+  --danger:#8e3944;
+}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#251b25 0,#08070a 42%),
+    var(--bg);
+  color:var(--text);
+  font-family:Georgia,"Times New Roman",serif;
+  min-height:100vh;
+}
+header{
+  padding:42px 20px 30px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+}
+header h1{
+  margin:0;
+  color:var(--gold2);
+  font-size:clamp(2.1rem,6vw,4.5rem);
+  letter-spacing:.08em;
+}
+header p{
+  color:var(--muted);
+  margin:12px auto 0;
+  max-width:760px;
+}
+.controls{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:14px;
+  background:rgba(8,7,10,.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+input,select,button{
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--text);
+  padding:11px 14px;
+  border-radius:8px;
+  font:inherit;
+}
+input{
+  flex:1;
+  min-width:220px;
+}
+button{
+  cursor:pointer;
+}
+button:hover{
+  border-color:var(--gold);
+  color:var(--gold2);
+}
+.layout{
+  max-width:1450px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:20px;
+  padding:20px;
+}
+aside{
+  background:rgba(18,16,22,.9);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  height:max-content;
+  position:sticky;
+  top:75px;
+}
+aside h2{
+  color:var(--gold);
+  font-size:1.1rem;
+}
+.nav-btn{
+  width:100%;
+  text-align:left;
+  margin:5px 0;
+}
+.nav-btn.active{
+  border-color:var(--gold);
+  background:#241c25;
+}
+main{
+  min-width:0;
+}
+.book{
+  display:none;
+}
+.book.active{
+  display:block;
+}
+.book-header{
+  background:linear-gradient(135deg,#1d1720,#0f0d12);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:25px;
+  margin-bottom:18px;
+}
+.book-header h2{
+  margin-top:0;
+  color:var(--gold2);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+}
+.card{
+  background:linear-gradient(145deg,#17131a,#0e0c11);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  transition:.2s;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#75603b;
+}
+.card h3{
+  color:var(--gold2);
+  margin-top:0;
+}
+.card p{
+  color:var(--muted);
+  line-height:1.6;
+}
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border:1px solid var(--border);
+  border-radius:99px;
+  font-size:.75rem;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.82);
+  padding:20px;
+  overflow:auto;
+}
+.modal.show{
+  display:block;
+}
+.modal-box{
+  max-width:900px;
+  margin:30px auto;
+  background:#100d12;
+  border:1px solid var(--gold);
+  border-radius:14px;
+  padding:25px;
+  box-shadow:0 20px 80px #000;
+}
+.close{
+  float:right;
+  border-radius:50%;
+}
+.section{
+  border-top:1px solid var(--border);
+  padding-top:18px;
+  margin-top:20px;
+}
+pre{
+  white-space:pre-wrap;
+  line-height:1.8;
+  color:#ddd2bf;
+  background:#09080b;
+  padding:18px;
+  border-radius:8px;
+  overflow:auto;
+}
+.symbol{
+  font-size:4rem;
+  text-align:center;
+  color:var(--gold);
+  padding:20px;
+  border:1px dashed #655334;
+  border-radius:10px;
+  margin:15px 0;
+}
+footer{
+  text-align:center;
+  padding:35px 20px;
+  color:#777;
+  border-top:1px solid var(--border);
+  margin-top:30px;
+}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  aside{position:static}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>GRIMÓRIO</h1>
+  <p>
+    Biblioteca interativa de textos históricos, manuscritos,
+    símbolos e tradições esotéricas.
+  </p>
+</header>
+
+<div class="controls">
+  <input id="search" type="search"
+    placeholder="Pesquisar livros, registros, termos...">
+  <select id="category">
+    <option value="all">Todas as categorias</option>
+    <option value="angelical">Angelologia</option>
+    <option value="demonologia">Demonologia</option>
+    <option value="alquimia">Alquimia</option>
+    <option value="hermetismo">Hermetismo</option>
+    <option value="proteção">Proteção</option>
+  </select>
+  <button onclick="showAbout()">Sobre</button>
+</div>
+
+<div class="layout">
+
+<aside>
+  <h2>Biblioteca</h2>
+
+  <button class="nav-btn active" data-book="all">
+    📚 Biblioteca completa
+  </button>
+
+  <button class="nav-btn" data-book="ars">
+    I — Ars Goetia
+  </button>
+
+  <button class="nav-btn" data-book="theurgia">
+    II — Ars Theurgia
+  </button>
+
+  <button class="nav-btn" data-book="paulina">
+    III — Ars Paulina
+  </button>
+
+  <button class="nav-btn" data-book="almandal">
+    IV — Almadel
+  </button>
+
+  <button class="nav-btn" data-book="abramelin">
+    V — Abramelin
+  </button>
+</aside>
+
+<main>
+
+<section class="book active" id="all">
+  <div class="book-header">
+    <h2>Biblioteca Completa</h2>
+    <p>
+      Selecione um registro para abrir sua ficha completa.
+      Use a pesquisa para localizar rapidamente qualquer conteúdo.
+    </p>
+  </div>
+  <div id="allGrid" class="grid"></div>
+</section>
+
+<section class="book" id="ars">
+  <div class="book-header">
+    <h2>Ars Goetia</h2>
+    <p>Primeira parte tradicionalmente associada ao Lemegeton.</p>
+  </div>
+  <div class="grid" id="arsGrid"></div>
+</section>
+
+<section class="book" id="theurgia">
+  <div class="book-header">
+    <h2>Ars Theurgia-Goetia</h2>
+    <p>Segunda parte do corpus tradicional do Lemegeton.</p>
+  </div>
+  <div class="grid" id="theurgiaGrid"></div>
+</section>
+
+<section class="book" id="paulina">
+  <div class="book-header">
+    <h2>Ars Paulina</h2>
+    <p>Terceira parte, relacionada a horas, anjos e correspondências.</p>
+  </div>
+  <div class="grid" id="paulinaGrid"></div>
+</section>
+
+<section class="book" id="almandal">
+  <div class="book-header">
+    <h2>Almadel</h2>
+    <p>Quarta parte tradicionalmente transmitida com o Lemegeton.</p>
+  </div>
+  <div class="grid" id="almandalGrid"></div>
+</section>
+
+<section class="book" id="abramelin">
+  <div class="book-header">
+    <h2>Livro de Abramelin</h2>
+    <p>
+      Tradição de magia cerimonial e busca de conhecimento espiritual.
+    </p>
+  </div>
+  <div class="grid" id="abramelinGrid"></div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  Grimório Digital · Edição Interativa
+</footer>
+
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+
+const registros = [
+
+{
+ id:"ars-01",
+ book:"ars",
+ bookName:"Ars Goetia",
+ number:1,
+ name:"Bael",
+ category:"demonologia",
+ title:"Bael — Registro 01",
+ purpose:"Registro histórico e comparativo dentro da tradição goética.",
+ description:"Bael aparece tradicionalmente como o primeiro espírito catalogado na Ars Goetia.",
+ symbol:"☿",
+ text:`REGISTRO HISTÓRICO
+
+Nome tradicional: Bael
+Posição: 01
+Fonte: Ars Goetia
+
+Este espaço foi estruturado para receber a transcrição,
+tradução e comparação de diferentes edições históricas.
+
+A ficha não representa uma instrução prática de evocação.`
+},
+
+{
+ id:"ars-02",
+ book:"ars",
+ bookName:"Ars Goetia",
+ number:2,
+ name:"Agares",
+ category:"demonologia",
+ title:"Agares — Registro 02",
+ purpose:"Estudo histórico da segunda entrada da Ars Goetia.",
+ description:"Agares é tradicionalmente apresentado como o segundo registro da lista.",
+ symbol:"△",
+ text:`REGISTRO HISTÓRICO
+
+Nome tradicional: Agares
+Posição: 02
+Fonte: Ars Goetia
+
+Use esta ficha para comparar manuscritos,
+edições e traduções históricas.`
+},
+
+{
+ id:"theurgia-01",
+ book:"theurgia",
+ bookName:"Ars Theurgia",
+ number:1,
+ name:"Oriens",
+ category:"demonologia",
+ title:"Oriens — Registro",
+ purpose:"Estudo histórico da tradição dos espíritos direcionais.",
+ description:"Registro associado às classificações tradicionais da Ars Theurgia.",
+ symbol:"☉",
+ text:`REGISTRO HISTÓRICO
+
+Nome: Oriens
+Corpus: Ars Theurgia-Goetia
+
+O conteúdo desta ficha pode ser expandido
+com variantes manuscritas e referências bibliográficas.`
+},
+
+{
+ id:"paulina-01",
+ book:"paulina",
+ bookName:"Ars Paulina",
+ number:1,
+ name:"Anjos das horas",
+ category:"angelical",
+ title:"Anjos das Horas",
+ purpose:"Estudo das correspondências angelológicas tradicionais.",
+ description:"A Ars Paulina apresenta sistemas de correspondências relacionados a horas e anjos.",
+ symbol:"✦",
+ text:`REGISTRO HISTÓRICO
+
+Tema: Anjos das horas
+Corpus: Ars Paulina
+
+Esta ficha pode reunir:
+• nomes tradicionais
+• variantes ortográficas
+• correspondências
+• referências de manuscritos`
+},
+
+{
+ id:"almandel-01",
+ book:"almandal",
+ bookName:"Almadel",
+ number:1,
+ name:"Almadel",
+ category:"angelical",
+ title:"Almadel — Estrutura",
+ purpose:"Estudo histórico do sistema apresentado no Almadel.",
+ description:"O Almadel descreve um sistema de anjos e correspondências organizado por grupos.",
+ symbol:"✧",
+ text:`REGISTRO HISTÓRICO
+
+Obra: Almadel
+
+A interface permite posteriormente acrescentar
+manuscritos, variantes e referências acadêmicas.`
+},
+
+{
+ id:"abramelin-01",
+ book:"abramelin",
+ bookName:"Abramelin",
+ number:1,
+ name:"Conhecimento e preparação",
+ category:"hermetismo",
+ title:"Abramelin — Tradição",
+ purpose:"Estudo histórico e textual da tradição de Abramelin.",
+ description:"O corpus de Abramelin possui diferentes versões e traduções históricas.",
+ symbol:"✥",
+ text:`REGISTRO HISTÓRICO
+
+Corpus: Livro de Abramelin
+
+O sistema foi preparado para receber
+diferentes traduções e versões históricas.`
+},
+
+{
+ id:"protecao-01",
+ book:"ars",
+ bookName:"Tradições",
+ number:0,
+ name:"Proteção",
+ category:"proteção",
+ title:"Proteção — Estudos comparativos",
+ purpose:"Comparar símbolos e práticas protetivas presentes em fontes históricas.",
+ description:"Área destinada ao estudo histórico de amuletos, orações e símbolos protetivos.",
+ symbol:"⬡",
+ text:`ESTUDO COMPARATIVO
+
+Tema: Proteção
+
+Podem ser adicionadas fontes históricas,
+manuscritos e referências bibliográficas.`
+},
+
+{
+ id:"alquimia-01",
+ book:"abramelin",
+ bookName:"Tradições",
+ number:0,
+ name:"Alquimia",
+ category:"alquimia",
+ title:"Alquimia — Estudos",
+ purpose:"Pesquisa histórica da tradição alquímica.",
+ description:"Área para organizar tratados, símbolos, manuscritos e terminologia alquímica.",
+ symbol:"☉",
+ text:`ESTUDO HISTÓRICO
+
+Tema: Alquimia
+
+Área preparada para catalogação de tratados,
+símbolos e variantes textuais.`
+}
+
+];
+
+function cardTemplate(item){
+
+ return `
+ <article class="card"
+   data-name="${item.name.toLowerCase()}"
+   data-category="${item.category}">
+
+   <span class="badge">${item.category}</span>
+
+   <h3>${item.title}</h3>
+
+   <p>${item.description}</p>
+
+   <div class="actions">
+     <button onclick="openRecord('${item.id}')">
+       Abrir registro
+     </button>
+   </div>
+
+ </article>
+ `;
+}
+
+function render(){
+
+ const grids={
+   ars:document.getElementById("arsGrid"),
+   theurgia:document.getElementById("theurgiaGrid"),
+   paulina:document.getElementById("paulinaGrid"),
+   almandal:document.getElementById("almandalGrid"),
+   abramelin:document.getElementById("abramelinGrid"),
+   all:document.getElementById("allGrid")
+ };
+
+ Object.values(grids).forEach(g=>g.innerHTML="");
+
+ registros.forEach(item=>{
+   const html=cardTemplate(item);
+
+   if(grids[item.book])
+     grids[item.book].insertAdjacentHTML("beforeend",html);
+
+   grids.all.insertAdjacentHTML("beforeend",html);
+ });
+
+}
+
+function openRecord(id){
+
+ const item=registros.find(x=>x.id===id);
+
+ if(!item)return;
+
+ document.getElementById("modalContent").innerHTML=`
+
+   <span class="badge">${item.bookName}</span>
+
+   <h2>${item.title}</h2>
+
+   <p>${item.description}</p>
+
+   <div class="section">
+     <h3>Para que serve</h3>
+     <p>${item.purpose}</p>
+   </div>
+
+   <div class="section">
+     <h3>Símbolo / representação</h3>
+     <div class="symbol">${item.symbol}</div>
+   </div>
+
+   <div class="section">
+     <h3>Texto do registro</h3>
+     <pre>${item.text}</pre>
+   </div>
+
+   <div class="section">
+     <h3>Fontes e variantes</h3>
+     <p>
+       Área preparada para adicionar referências bibliográficas,
+       manuscritos, traduções e variantes de diferentes edições.
+     </p>
+   </div>
+
+   <div class="section">
+     <h3>Áudio</h3>
+     <p>
+       O registro está preparado para receber posteriormente
+       arquivos de áudio com pronúncia historicamente reconstruída,
+       quando houver uma fonte adequada.
+     </p>
+   </div>
+ `;
+
+ document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("modal").classList.remove("show");
+}
+
+function showAbout(){
+
+ document.getElementById("modalContent").innerHTML=`
+   <h2>Sobre o Grimório</h2>
+   <p>
+     Esta edição transforma o conteúdo em uma biblioteca navegável,
+     pesquisável e responsiva.
+   </p>
+
+   <div class="section">
+     <h3>Recursos</h3>
+     <ul>
+       <li>Biblioteca por livros</li>
+       <li>Pesquisa instantânea</li>
+       <li>Filtros por categoria</li>
+       <li>Fichas individuais</li>
+       <li>Interface responsiva</li>
+       <li>Funcionamento sem servidor</li>
+     </ul>
+   </div>
+ `;
+
+ document.getElementById("modal").classList.add("show");
+}
+
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+
+ btn.addEventListener("click",()=>{
+
+   document.querySelectorAll(".nav-btn")
+     .forEach(b=>b.classList.remove("active"));
+
+   btn.classList.add("active");
+
+   const target=btn.dataset.book;
+
+   document.querySelectorAll(".book")
+     .forEach(book=>book.classList.remove("active"));
+
+   document.getElementById(target).classList.add("active");
+
+   document.getElementById("search").value="";
+   filterCards();
+ });
+
+});
+
+function filterCards(){
+
+ const term=document
+   .getElementById("search")
+   .value
+   .toLowerCase();
+
+ const cat=document.getElementById("category").value;
+
+ document.querySelectorAll(".card").forEach(card=>{
+
+   const name=card.dataset.name;
+   const category=card.dataset.category;
+
+   const matchText=!term || name.includes(term);
+   const matchCat=cat==="all" || category===cat;
+
+   card.style.display=
+     matchText && matchCat ? "" : "none";
+ });
+}
+
+document
+ .getElementById("search")
+ .addEventListener("input",filterCards);
+
+document
+ .getElementById("category")
+ .addEventListener("change",filterCards);
+
+document
+ .getElementById("modal")
+ .addEventListener("click",e=>{
+   if(e.target.id==="modal")closeModal();
+ });
+
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape")closeModal();
+});
+
+render();
+
+</script>
+
+</body>
+</html>
